@@ -70,7 +70,7 @@ function App() {
         .then((data) => {
           setImage((current) => [...current, data.sprites.front_default]);
           console.log(data);
-          let idi = 0;
+          // let idi = 0;
           console.log("affichage ", data.id);
           //setId(pokemon.push(data.id));
           let i = 0;
@@ -78,12 +78,11 @@ function App() {
           //console.log(" tableau", tab);
           //setId(data.id);
 
+          setPokemon2(data);
           for (i === 0; i < 20; i++) {
             console.log("Affichage type ", data.types[i].type.name);
           }
           setTypes(data.types[i].type.name);
-
-          //setPokemon(data);
         })
         .then(setImage([]))
 
@@ -91,28 +90,51 @@ function App() {
     );
   }, [pokemon]);
   //pokemon.url
+  //console.log(pokemon);
   return (
     // FAIRE UN .MAP DANS UN .MAO AUR POKEMON.URL
     <div>
       <h2>HEADER</h2>
       <ul>
-        {pokemon.map((pokemon, i) => (
-          <li key={i}>
-            {" "}
-            <br></br>
-            {pokemon.id}
-            <br></br>
-            {pokemon.name} <br></br>
-            {pokemon.url}
-            <br></br>
-            {pokemon.types}
-            <img src={Image[i]} alt="dracafeu" />
-            <hr></hr>
-          </li>
-        ))}
-      </ul>
+        {pokemon.map(
+          (pokemon1, i) => (
+            //pokemon2.map((poke2, index) => (
+            <li key={i}>
+              {" "}
+              <br></br>
+              {id}
+              <br></br>
+              {pokemon1.name} <br></br>
+              {pokemon1.url}
+              <br></br>
+              <img src={Image[i]} alt="dracafeu" />
+              <hr></hr>
+            </li>
+          )
+          //))
+          //pokemon.map((e) => console.log(e))
+        )}
+        <h3>TEST FOR EVERY POKE</h3>
 
-      <h3>TEST FOR EVERY POKE</h3>
+        {console.log("test", pokemon2)}
+        {pokemon2.map(
+          (poke2, index) => (
+            // pokemon2.map((poke2, index) => (
+            <li key={index}>
+              {" "}
+              <br></br>
+              {poke2.id}
+              {console.log("test2", poke2.id)}
+              <br></br>
+              {""} <br></br>
+              <br></br>
+              <hr></hr>
+            </li>
+          )
+          //))
+          //pokemon.map((e) => console.log(e))
+        )}
+      </ul>
 
       {url.previous && <button onClick={previous}> Previous</button>}
       {url.next && <button onClick={next}>next</button>}
