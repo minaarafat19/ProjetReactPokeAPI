@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 function App() {
   const [pokemon, setPokemon] = useState([]);
   const [pokemon2, setPokemon2] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState([]);
   const [url, setUrl] = useState({
     current: "https://pokeapi.co/api/v2/pokemon/",
     next: null,
     previous: null,
   });
   const [Image, setImage] = useState([]);
-  const [Types, setTypes] = useState("");
+  const [Types, setTypes] = useState();
   const [id, setId] = useState();
 
   const next = () => {
@@ -64,35 +65,84 @@ function App() {
   }, [i]);*/
 
   useEffect(() => {
-    pokemon.map((poke, i) =>
+    pokemon.map((poke, index) =>
       fetch(poke.url)
         .then((res) => res.json())
         .then((data) => {
           setImage((current) => [...current, data.sprites.front_default]);
           console.log(data);
-          // let idi = 0;
-          console.log("affichage ", data.id);
+          //setId(data.id);
+
+          console.log("affichage ID ", data.id);
+          //console.log("voir url", poke.url);
           //setId(pokemon.push(data.id));
           let i = 0;
           //let tab = pokemon.push(data.id);
-          //console.log(" tableau", tab);
-          //setId(data.id);
+          //console.log(" tableau pokemon", pokemon);
 
           setPokemon2(data);
-          for (i === 0; i < 20; i++) {
+          let test = 0;
+          //pokemon.map((pokemon1, i) => (
+          /*data.types.map(
+            (e, ind) => (
+              console.log("test", e, ind),
+              //test = ;
+              setTypes(e.type.name)
+            )
+          );*/
+
+          let res = "";
+          poke.new_types = [];
+          for (i === 0; i < data.types.length; i++) {
+            res = data.types[i].type.name;
             console.log("Affichage type ", data.types[i].type.name);
+            poke.new_types.push(data.types[i].type.name);
+            //pokemon.push(data.types[i].type.name);
+            //setTypes(res);
           }
-          setTypes(data.types[i].type.name);
+          setId(data.id);
         })
         .then(setImage([]))
 
         .catch((err) => console.error(err))
     );
   }, [pokemon]);
+  /*function Ajouter() {
+    if (inputTodo.trim().length == 0) {
+      return null;
+    }
+    let tableauAdded = [...todos];
+    let id = Date.now();
+    tableauAdded.push(inputTodo.trim());
+    setTodos(tableauAdded);
+    setInputTodo("");
+    console.log("tableau todos: ", tableauAdded);
+    const newItems = JSON.stringify([...tableauAdded]);
+    localStorage.setItem("myItems", newItems);
+    //console.log("set todos:", setTodos);
+
+    //return tableautest;
+  }*/
+  /*function Add() {
+    console.log("selected", TableauAjouterPoke);
+    const handleClick = event => {
+      console.log(event.currentTarget.id);
+    }*/
+
+  //let TableauAjouterPoke = [];
+  const handleClick = (event) => {
+    //event.currentTarget.
+    let i = 0;
+    for (i === 0; i < pokemon.length; i++) {
+      let TableauAjouterPoke = [...selectedPokemon];
+      TableauAjouterPoke.push(pokemon[0]);
+      console.log("ONCLICK", TableauAjouterPoke);
+    }
+  };
   //pokemon.url
   //console.log(pokemon);
   return (
-    // FAIRE UN .MAP DANS UN .MAO AUR POKEMON.URL
+    // FAIRE UN .MAP DANS UN .MAP AUR POKEMON.URL
     <div>
       <h2>HEADER</h2>
       <ul>
@@ -107,17 +157,20 @@ function App() {
               {pokemon1.name} <br></br>
               {pokemon1.url}
               <br></br>
+              {JSON.stringify(pokemon1.new_types)}
+              <br></br>
+              <button onClick={handleClick}>Add To pokedex</button>
+              <br></br>
               <img src={Image[i]} alt="dracafeu" />
               <hr></hr>
             </li>
           )
           //))
-          //pokemon.map((e) => console.log(e))
         )}
         <h3>TEST FOR EVERY POKE</h3>
 
-        {console.log("test", pokemon2)}
-        {pokemon2.map(
+        {console.log("test !", pokemon2.id)}
+        {/*pokemon2.map(
           (poke2, index) => (
             // pokemon2.map((poke2, index) => (
             <li key={index}>
@@ -133,7 +186,7 @@ function App() {
           )
           //))
           //pokemon.map((e) => console.log(e))
-        )}
+          )*/}
       </ul>
 
       {url.previous && <button onClick={previous}> Previous</button>}
