@@ -69,7 +69,7 @@ function App() {
       fetch(poke.url)
         .then((res) => res.json())
         .then((data) => {
-          setImage((current) => [...current, data.sprites.front_default]);
+          //setImage((current) => [...current, data.sprites.front_default]);
           console.log(data);
           //setId(data.id);
 
@@ -93,6 +93,8 @@ function App() {
 
           let res = "";
           poke.new_types = [];
+          poke.new_id = [];
+          poke.new_image = [];
           for (i === 0; i < data.types.length; i++) {
             res = data.types[i].type.name;
             console.log("Affichage type ", data.types[i].type.name);
@@ -100,7 +102,9 @@ function App() {
             //pokemon.push(data.types[i].type.name);
             //setTypes(res);
           }
-          setId(data.id);
+          poke.new_id.push(data.id);
+          poke.new_image.push(data.sprites.front_default);
+          //setId(data.id);
         })
         .then(setImage([]))
 
@@ -152,7 +156,8 @@ function App() {
             <li key={i}>
               {" "}
               <br></br>
-              {id}
+              {""}
+              {pokemon1.new_id}
               <br></br>
               {pokemon1.name} <br></br>
               {pokemon1.url}
@@ -161,7 +166,7 @@ function App() {
               <br></br>
               <button onClick={handleClick}>Add To pokedex</button>
               <br></br>
-              <img src={Image[i]} alt="dracafeu" />
+              <img src={pokemon1.new_image} alt="dracafeu" />
               <hr></hr>
             </li>
           )
