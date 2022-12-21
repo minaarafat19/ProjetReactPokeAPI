@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import Pokedex from "./component/pokedex";
 
 function App() {
   const [pokemon, setPokemon] = useState([]);
@@ -13,6 +15,7 @@ function App() {
   const [Image, setImage] = useState([]);
   const [Types, setTypes] = useState();
   const [id, setId] = useState();
+  const navigate = useNavigate();
 
   const next = () => {
     const newUrl = {
@@ -132,17 +135,65 @@ function App() {
     const handleClick = event => {
       console.log(event.currentTarget.id);
     }*/
+  /*if (inputTodo.trim().length == 0) {
+    return null;
+  }
+  let tableauAdded = [...todos];
+  let id = Date.now();
+  tableauAdded.push(inputTodo.trim());
+  setTodos(tableauAdded);
+  setInputTodo("");
+  console.log("tableau todos: ", tableauAdded);
+  const newItems = JSON.stringify([...tableauAdded]);
+  localStorage.setItem("myItems", newItems);
+  //console.log("set todos:", setTodos);*/
+
+  //return tableautest;
 
   //let TableauAjouterPoke = [];
   const handleClick = (event) => {
     //event.currentTarget.
-    let i = 0;
-    for (i === 0; i < pokemon.length; i++) {
+
+    if (event.currentTarget.value == true) {
       let TableauAjouterPoke = [...selectedPokemon];
-      TableauAjouterPoke.push(pokemon[0]);
-      console.log("ONCLICK", TableauAjouterPoke);
+      TableauAjouterPoke.push(event.currentTarget);
+      console.log("ONCLICK ggg", TableauAjouterPoke);
     }
   };
+
+  // This function will handle the submission.
+  async function onSubmit(e) {
+    e.preventDefault();
+    var elt = this;
+
+    // id de l'element
+
+    //var idElt = this.getAttribute("id");
+
+    // When a post request is sent to the create url, we'll add a new record to the database.
+
+    //console.log("valeur", e.currentTarget.id);
+    await fetch("http://localhost:5000/record/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        new_id: [pokemon[0].new_id],
+        name: [pokemon[0].name],
+        new_types: [pokemon[0].new_types],
+        new_image: [pokemon[0].new_image],
+      }),
+      //JSON.stringify(newPerson),
+    }).catch((error) => {
+      window.alert(error);
+      return;
+    });
+
+    //setForm({ name: "", position: "", level: "" });
+    navigate("/");
+  }
+
   //pokemon.url
   //console.log(pokemon);
   return (
@@ -159,12 +210,13 @@ function App() {
               {""}
               {pokemon1.new_id}
               <br></br>
+              {"name:"}
               {pokemon1.name} <br></br>
               {pokemon1.url}
               <br></br>
               {JSON.stringify(pokemon1.new_types)}
               <br></br>
-              <button onClick={handleClick}>Add To pokedex</button>
+              <button onClick={onSubmit}>Add To pokedex</button>
               <br></br>
               <img src={pokemon1.new_image} alt="dracafeu" />
               <hr></hr>
