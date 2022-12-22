@@ -7,6 +7,7 @@ import Pokedex from "./component/pokedex";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
+import RecordList from "./component/recordList";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +16,7 @@ root.render(
       <Header />
       <BrowserRouter>
         <Routes>
-          <Route path="/pokedex" element={<Pokedex />} />
+          <Route path="/record" element={<Pokedex />} />
           <Route path="/pokemons" element={<App />} />
         </Routes>
       </BrowserRouter>

@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 
 const Record = (props) => (
   <tr>
-    <td>{[props.name]}</td>
-    <td>{props.new_types}</td>
-    <td>{props.new_image}</td>
+    <td>{props.record.new_id}</td>
+    <td>{props.record.name}</td>
+    <td>{props.record.new_types}</td>
+    <td>
+      <img src={props.record.new_image}></img>
+      {}
+    </td>
     <td>
       <button
         className="btn btn-link"
         onClick={() => {
-          props.deleteRecord(props.record._id);
+          props.deleteRecord(props.new_id);
         }}
       >
         Delete
@@ -20,6 +24,7 @@ const Record = (props) => (
 );
 export default function Pokedex() {
   const [records, setRecords] = useState([]);
+  const [search, setSearch] = useState("");
 
   // This method fetches the records from the database.
   useEffect(() => {
@@ -42,19 +47,20 @@ export default function Pokedex() {
   }, [records.length]);
   // This method will delete a record
   async function deleteRecord(id) {
-    await fetch(`http://localhost:5000/${id}`, {
+    await fetch(`http://localhost:5000/record/${id}`, {
       method: "DELETE",
     });
 
     const newRecords = records.filter((el) => el._id !== id);
     setRecords(newRecords);
+    // console.log("oiii", records[0].name);
   }
 
   function recordList() {
     return records.map((record, index) => {
       return (
         <Record
-          record={record.record}
+          record={record}
           deleteRecord={() => deleteRecord(record._id)}
           key={index}
         />
@@ -65,17 +71,59 @@ export default function Pokedex() {
   // This following section will display the table with the records of individuals.
   return (
     <div>
-      <h3>Record List - My pokedx</h3>
+      <h3>Record List - My pokedex</h3>
+      <input
+        type="text"
+        placeholder="rechercher une note grace au Titre/Description..."
+        className="form-control"
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+      />
       <table className="table table-striped" style={{ marginTop: 20 }}>
+        <tr key={records._id}>
+          {recordList()
+            .filter((val, i) => {
+              //console.log("test", val.props);
+              if (search === "") {
+                return val;
+              } else if (
+                val.props.record.name[0]
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+                //val.new_types.toLowerCase().includes(search.toLowerCase())
+              ) {
+                return val;
+              }
+            })
+            .map((note, indice) => (
+              <tr key={"notes-" + indice}>
+                <td>{note.props.record.new_id[0]}</td>
+                <td>{note.props.record.name[0]}</td>
+                <td>{note.props.record.new_types[indice]}</td>
+                <td>
+                  <img src={note.props.record.new_image[0]} />
+                </td>
+                <button
+                  className="btn btn-link"
+                  onClick={() => {
+                    note.props.deleteRecord(note.props.record._id);
+                    //console.log("tess222", note.props.record._id);
+                  }}
+                >
+                  Delete
+                </button>
+              </tr>
+            ))}
+        </tr>
         <thead>
           <tr>
+            <th>id</th>
             <th>Name</th>
             <th>types</th>
             <th>images</th>
-            <th>id</th>
           </tr>
         </thead>
-        <tbody>{recordList()}</tbody>
       </table>
     </div>
   );

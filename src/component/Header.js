@@ -9,7 +9,7 @@ export default function Header() {
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">Acceuil</Nav.Link>
-            <Nav.Link href="pokedex">My pokedex</Nav.Link>
+            <Nav.Link href="record">My pokedex</Nav.Link>
             <Nav.Link href="pokemons">Pokemons</Nav.Link>
           </Nav>
         </Container>

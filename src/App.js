@@ -160,10 +160,14 @@ function App() {
       console.log("ONCLICK ggg", TableauAjouterPoke);
     }
   };
+  /*const Test = (id) => {
+    console.log("voici le test de l id", id - 1);
+  };*/
 
   // This function will handle the submission.
-  async function onSubmit(e) {
-    e.preventDefault();
+  const Test = async (id) => {
+    // async function onSubmit(e) {
+    //e.preventDefault();
     var elt = this;
 
     // id de l'element
@@ -179,10 +183,10 @@ function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        new_id: [pokemon[0].new_id],
-        name: [pokemon[0].name],
-        new_types: [pokemon[0].new_types],
-        new_image: [pokemon[0].new_image],
+        new_id: [pokemon[id - 1].new_id],
+        name: [pokemon[id - 1].name],
+        new_types: [pokemon[id - 1].new_types],
+        new_image: [pokemon[id - 1].new_image],
       }),
       //JSON.stringify(newPerson),
     }).catch((error) => {
@@ -192,7 +196,7 @@ function App() {
 
     //setForm({ name: "", position: "", level: "" });
     navigate("/");
-  }
+  };
 
   //pokemon.url
   //console.log(pokemon);
@@ -216,7 +220,12 @@ function App() {
               <br></br>
               {JSON.stringify(pokemon1.new_types)}
               <br></br>
-              <button onClick={onSubmit}>Add To pokedex</button>
+              <button
+                id={pokemon1.new_id}
+                onClick={() => Test(pokemon1.new_id)}
+              >
+                Add To pokedex
+              </button>
               <br></br>
               <img src={pokemon1.new_image} alt="dracafeu" />
               <hr></hr>
