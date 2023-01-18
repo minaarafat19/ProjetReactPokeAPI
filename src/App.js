@@ -195,7 +195,7 @@ function App() {
     });
 
     //setForm({ name: "", position: "", level: "" });
-    navigate("/");
+    // navigate("/");
   };
 
   //pokemon.url

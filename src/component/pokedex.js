@@ -102,7 +102,7 @@ export default function Pokedex() {
                 <td>{note.props.record.name[0]}</td>
                 <td>{note.props.record.new_types[indice]}</td>
                 <td>
-                  <img src={note.props.record.new_image[0]} />
+                  <img src={note.props.record.new_image} />
                 </td>
                 <button
                   className="btn btn-link"
@@ -116,14 +116,6 @@ export default function Pokedex() {
               </tr>
             ))}
         </tr>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>Name</th>
-            <th>types</th>
-            <th>images</th>
-          </tr>
-        </thead>
       </table>
     </div>
   );
